@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hao Li — Software Developer</title>
+<meta name="description" content="Hao Li builds small tools that solve real problems. Open-source CLI tools, Chrome extensions, and freelance development.">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #131316;
+    --border: #26262b;
+    --text: #e8e8ea;
+    --muted: #9a9aa3;
+    --faint: #63636c;
+    --accent: #a3e635;
+    --accent-dim: rgba(163, 230, 53, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* nav */
+  nav { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,11,.92); backdrop-filter: blur(8px); z-index: 10; }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; font-size: 15px; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+  .nav-links a:hover { color: var(--text); }
+
+  /* hero */
+  .hero { padding: 96px 0 64px; }
+  .hero .kicker { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; color: var(--accent); margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(40px, 7vw, 68px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px; }
+  .hero .tagline { font-size: 19px; color: var(--muted); max-width: 560px; margin-bottom: 32px; }
+  .hero .tagline em { color: var(--text); font-style: normal; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    transition: border-color .15s, transform .15s;
+  }
+  .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #0a0a0b; }
+  .btn.primary:hover { filter: brightness(1.08); }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 88px; }
+  .stat { background: var(--surface); padding: 22px 24px; }
+  .stat .num { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+  .stat .num span { color: var(--accent); }
+  .stat .label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* sections */
+  section { margin-bottom: 88px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+  .sec-head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+  .sec-head .idx { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; color: var(--accent); }
+  .sec-sub { color: var(--muted); font-size: 15px; margin-bottom: 28px; max-width: 640px; }
+
+  .group-label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.12em; margin: 32px 0 16px; }
+  .group-label:first-of-type { margin-top: 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 22px; display: flex; flex-direction: column; gap: 10px;
+    transition: border-color .15s, transform .15s;
+  }
+  .card:hover { border-color: #3a3a42; transform: translateY(-2px); }
+  .card h3 { font-size: 17px; font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -0.01em; }
+  .card h3 a:hover { color: var(--accent); }
+  .card p { font-size: 14px; color: var(--muted); flex: 1; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .chip {
+    font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .chip:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* hackathons */
+  .hack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .hack { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .hack h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .hack .org { font-size: 13px; color: var(--faint); margin-bottom: 12px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 999px; }
+  .badge.live { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(163,230,53,.35); }
+  .badge.reg { background: rgba(148,163,184,.1); color: #a8b0bc; border: 1px solid var(--border); }
+  .hack .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  /* freelance */
+  .gig-list { display: flex; flex-direction: column; gap: 12px; }
+  .gig {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px;
+    transition: border-color .15s;
+  }
+  .gig:hover { border-color: #3a3a42; }
+  .gig .price { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; font-weight: 700; color: var(--accent); white-space: nowrap; min-width: 88px; }
+  .gig .info { flex: 1; }
+  .gig .info h3 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .gig .info p { font-size: 13.5px; color: var(--muted); }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0 56px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  footer p { font-size: 14px; color: var(--muted); }
+  footer .mail { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; color: var(--text); cursor: pointer; border: 1px solid var(--border); padding: 9px 16px; border-radius: 8px; background: var(--surface); }
+  footer .mail:hover { border-color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 64px 0 48px; }
+    .stats { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .gig { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">hao<span>_</span>li</a>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#hackathons">Hackathons</a>
+      <a href="#freelance">Freelance</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <header class="hero">
+    <div class="kicker">// software developer</div>
+    <h1>Hao Li</h1>
+    <p class="tagline">I build <em>small tools that solve real problems</em> — open-source CLIs, browser extensions, and automation. Shipped, documented, and on PyPI.</p>
+    <div class="btn-row">
+      <a class="btn primary" href="https://github.com/hahahahahahahahah6" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://dev.to/haoli" target="_blank" rel="noopener">dev.to</a>
+      <a class="btn" href="https://www.fiverr.com/haoli_builds" target="_blank" rel="noopener">Fiverr</a>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num">10<span>+</span></div><div class="label">open-source projects shipped</div></div>
+    <div class="stat"><div class="num">6</div><div class="label">packages on PyPI</div></div>
+    <div class="stat"><div class="num">4</div><div class="label">hackathons entered</div></div>
+  </div>
+
+  <section id="projects">
+    <div class="sec-head"><span class="idx">01</span><h2>Projects</h2></div>
+    <p class="sec-sub">Every project is MIT-licensed, zero-dependency where possible, tested, and documented. Built for Claude Code, Chrome, and real daily workflows.</p>
+
+    <div class="group-label">CLI / Python tools</div>
+    <div class="grid">
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/agent-guard" target="_blank" rel="noopener">agent-guard</a></h3>
+        <p>Behavior-guardrail hooks for Claude Code — stops agents from editing tests to fake a green build, and blocks risky outbound actions like force-pushes and surprise publishes.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/agent-guard" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/agent-guard-hooks/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/memgovern" target="_blank" rel="noopener">memgovern</a></h3>
+        <p>The neglected half of agent memory: write and delete. TTL, exponential-decay ranking, tombstone deletes, and conflict arbitration — SQLite under the hood.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/memgovern" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/memgovern/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/session-handover" target="_blank" rel="noopener">session-handover</a></h3>
+        <p>Hand off a coding-agent session to the next one, across tools — reads Claude Code and Codex CLI transcripts and generates a structured Markdown handover.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/session-handover" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/session-handover/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/edit-guard" target="_blank" rel="noopener">edit-guard</a></h3>
+        <p>A Claude Code hook that blocks stale cross-session file edits — stops one agent session from editing a file another session changed underneath it.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/edit-guard" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/edit-guard/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/mcp-tax" target="_blank" rel="noopener">mcp-tax</a></h3>
+        <p>Audit the context tax of your MCP servers — measures how many tokens each server's schemas cost you, then lets you launch with the expensive ones switched off.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/mcp-tax" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/mcp-tax/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/review-bridge" target="_blank" rel="noopener">review-bridge</a></h3>
+        <p>A review secretary for a family noodle restaurant — Chinese briefings on ratings and dishes, bad-review alerts, and English reply drafts for owners who don't read English.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/review-bridge" target="_blank" rel="noopener">GitHub</a>
+          <a class="chip" href="https://pypi.org/project/review-bridge/" target="_blank" rel="noopener">PyPI</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/fitlog-mcp" target="_blank" rel="noopener">fitlog-mcp</a></h3>
+        <p>A self-hosted MCP server that turns Alexa+ into a gym coach — log sets by voice, ask for personal records, get today's plan and protein targets.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/fitlog-mcp" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-label">Chrome extensions</div>
+    <div class="grid">
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/browser-buddy" target="_blank" rel="noopener">browser-buddy</a></h3>
+        <p>Let your coding agent read pages through your real, logged-in Chrome — a local MCP bridge over native messaging. No cloud, no API keys, pages never leave your machine.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/browser-buddy" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://github.com/hahahahahahahahah6/subwatch" target="_blank" rel="noopener">subwatch</a></h3>
+        <p>Subreddit new-post alerts for Chrome — the replacement for Reddit RSS, which Reddit is shutting down. No API key, keyword filters, desktop notifications.</p>
+        <div class="chips">
+          <a class="chip" href="https://github.com/hahahahahahahahah6/subwatch" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>RateMyProf Quick Check</h3>
+        <p>Shows RateMyProfessors ratings inline on class search pages — pick professors without tab-hopping during enrollment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="hackathons">
+    <div class="sec-head"><span class="idx">02</span><h2>Hackathons</h2></div>
+    <p class="sec-sub">Currently competing — building in the open, shipping demos.</p>
+    <div class="hack-grid">
+      <div class="hack">
+        <h3>GitLab Transcend: Life After Code</h3>
+        <div class="org">GitLab · Devpost</div>
+        <span class="badge live">In progress</span>
+        <p class="note">Bringing agent-guard to GitLab CI with a live demo video.</p>
+      </div>
+      <div class="hack">
+        <h3>Nebius × NVIDIA Global AI Hackathon</h3>
+        <div class="org">Nebius · Devpost</div>
+        <span class="badge reg">Registered</span>
+        <p class="note">Plan: a Nemotron-powered semantic reviewer for agent-guard, running on Nebius AI Cloud.</p>
+      </div>
+      <div class="hack">
+        <h3>Amazon Build, Ship, Shape</h3>
+        <div class="org">Amazon · Devpost</div>
+        <span class="badge live">In progress</span>
+        <p class="note">Entry: <a href="https://github.com/hahahahahahahahah6/fitlog-mcp" target="_blank" rel="noopener" style="color:var(--accent)">fitlog-mcp</a> — a self-hosted MCP server turning Alexa+ into a gym coach.</p>
+      </div>
+      <div class="hack">
+        <h3>Open Agent Hackathon 2026</h3>
+        <div class="org">genai.works</div>
+        <span class="badge reg">Registered</span>
+        <p class="note">Solo team "agent-guard" — sprint runs Oct 15–20.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="freelance">
+    <div class="sec-head"><span class="idx">03</span><h2>Freelance</h2></div>
+    <p class="sec-sub">Available for small, well-scoped gigs on <a href="https://www.fiverr.com/haoli_builds" target="_blank" rel="noopener" style="color:var(--accent)">Fiverr</a> — I ship tested code, fast.</p>
+    <div class="gig-list">
+      <div class="gig">
+        <div class="price">from $15</div>
+        <div class="info">
+          <h3>Python bug fix / script</h3>
+          <p>Your broken script fixed within 24 hours — debugged, tested, and explained so it stays fixed.</p>
+        </div>
+      </div>
+      <div class="gig">
+        <div class="price">from $50</div>
+        <div class="info">
+          <h3>Custom Chrome extension</h3>
+          <p>A Manifest V3 extension built for your workflow — automation, productivity, or data extraction.</p>
+        </div>
+      </div>
+      <div class="gig">
+        <div class="price">from $80</div>
+        <div class="info">
+          <h3>MVP / internal tool</h3>
+          <p>Your MVP or internal tool built in days, not months — scoped tight, shipped working.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <p>© 2026 Hao Li — Built by hand, shipped often.</p>
+    <button class="mail" id="mailBtn" title="Click to copy">haoli5933@gmail.com</button>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('mailBtn').addEventListener('click', function () {
+    var email = 'haoli5933@gmail.com';
+    var done = function () {
+      var b = document.getElementById('mailBtn');
+      b.textContent = 'copied ✓';
+      setTimeout(function () { b.textContent = email; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(done).catch(function () { window.location.href = 'mailto:' + email; });
+    } else {
+      window.location.href = 'mailto:' + email;
+    }
+  });
+</script>
+
+</body>
+</html>
